@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import entities.Client;
 import entities.Order;
+import entities.OrderItem;
 import entities.Product;
 import entities.enums.OrderStatus;
 
@@ -16,7 +17,6 @@ public class Main {
 		
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
-		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		System.out.println("Enter client data:");
@@ -29,13 +29,14 @@ public class Main {
 		sc.nextLine();
 		
 		Client client = new Client(name, email, birthDate);
+		
 		System.out.println("Enter order data: ");
 		System.out.println("Status:");
 		String status = sc.nextLine();
-		sc.nextLine();
 		
 		System.out.println("How many items to this order?");
 		int item = sc.nextInt();
+		sc.nextLine();
 		
 		Order order = new Order(new Date(), OrderStatus.valueOf(status) , client);
 		
@@ -46,19 +47,21 @@ public class Main {
 			sc.nextLine();
 			System.out.println("Product price:");
 			double productPrice = sc.nextDouble();
+			
+			Product product= new Product(productName, productPrice);
+			
 			System.out.println("Quantity: ");
 			int quantity = sc.nextInt();
 			sc.nextLine();
 			
-			Product product= new Product(productName, productPrice);
+			OrderItem orderItem = new OrderItem(quantity,productPrice,product);
+			
+			order.addItem(orderItem);
 		}
 		
-		System.out.print("ORDER SUMMARY: ");
+		System.out.println("ORDER SUMMARY");
 		System.out.print(order);
-		
-		
-		
-		
+		sc.close();
 		
 	}
 }
